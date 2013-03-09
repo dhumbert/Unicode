@@ -3,7 +3,10 @@
 
 int main() 
 {
-    int value = 0x24B62, hex_value = 0x0;
+    int value;
+
+    printf("Enter a Unicode code point: ");
+    scanf("%x", &value);
 
     int bytes[4] = {-1, -1, -1, -1};
 
