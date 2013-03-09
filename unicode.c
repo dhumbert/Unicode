@@ -10,7 +10,7 @@ int main()
     int bytes[4] = {-1, -1, -1, -1};
 
     if (value >= 0x0000 && value <= 0x007F) {
-        bytes[0] = value; // characters below code point 255 are ASCII
+        bytes[0] = value; // characters below code point 127 are ASCII
     } else if (value >= 0x0080 && value <= 0x07FF) {
         bytes[0] = 0xC0 | ((value & 0x7C0) >> 6);
         bytes[1] = 0x80 | (value & 0x3F);
