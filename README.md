@@ -5,6 +5,6 @@ I've been taking part in a database migration, and we have had issues related to
 
 Example:
 
-    Enter a Unicode code point: 200A0
-    Hex bytes: f0 a0 82 a0 
-    Character: 𠂠
+    Enter a Unicode code point: 20ac
+    Hex bytes: e2 82 ac 
+    Character: €
