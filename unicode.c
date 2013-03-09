@@ -1,3 +1,7 @@
+/**
+ * Convert a Unicode code point to UTF-8.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 
