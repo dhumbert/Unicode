@@ -3,7 +3,7 @@
 #include <string.h>
 #include "utf8.h"
 
-#define BOM 0  // set to 1 to include utf8 BOM
+#define BOM 1  // set to 1 to include utf8 BOM
 
 int main(int argc, char *argv[])
 {
