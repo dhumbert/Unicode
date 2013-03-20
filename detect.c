@@ -1,40 +1,34 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int maybe_utf8(char*);
-int maybe_utf16be(char*);
-int maybe_utf16le(char*);
+int is_utf8(char*);
+int is_utf16be(char*);
+int is_utf16le(char*);
+int is_utf32be(char*);
+int is_utf32le(char*);
 int check_bom(char*, int*);
 
 int main()
 {
-    int found = 0;
     char to_check[4096];
     fread(to_check, 1, 4096, stdin);
 
-    printf("Could be: \n");
-
-    if (maybe_utf8(to_check)) {
+    if (is_utf8(to_check)) {
         printf("UTF-8\n");
-        found++;
-    }
-
-    if (maybe_utf16be(to_check)) {
+    } else if (is_utf16be(to_check)) {
         printf("UTF-16 BE\n");
-        found++;
-    }
-
-    if (maybe_utf16le(to_check)) {
+    } else if (is_utf16le(to_check)) {
         printf("UTF-16 LE\n");
-        found++;
-    }
-
-    if (found == 0) {
+    } else if (is_utf32be(to_check)) {
+        printf("UTF-32 BE\n");
+    } else if (is_utf32le(to_check)) {
+        printf("UTF-32 LE\n");
+    } else {
         printf("Unknown encoding\n");
     }
 }
 
-int maybe_utf8(char *to_check)
+int is_utf8(char *to_check)
 {
     int *bom = malloc(3 * sizeof(int));
     bom[0] = 0xEF;
@@ -44,7 +38,7 @@ int maybe_utf8(char *to_check)
     return check_bom(to_check, bom);
 }
 
-int maybe_utf16be(char *to_check)
+int is_utf16be(char *to_check)
 {
     int *bom = malloc(2 * sizeof(int));
     bom[0] = 0xFE;
@@ -53,11 +47,33 @@ int maybe_utf16be(char *to_check)
     return check_bom(to_check, bom);
 }
 
-int maybe_utf16le(char *to_check)
+int is_utf16le(char *to_check)
 {
     int *bom = malloc(2 * sizeof(int));
     bom[0] = 0xFF;
     bom[1] = 0xFE;
+    
+    return check_bom(to_check, bom);
+}
+
+int is_utf32be(char *to_check)
+{
+    int *bom = malloc(4 * sizeof(int));
+    bom[0] = 0x00;
+    bom[1] = 0x00;
+    bom[2] = 0xFE;
+    bom[3] = 0xFF;
+    
+    return check_bom(to_check, bom);
+}
+
+int is_utf32le(char *to_check)
+{
+    int *bom = malloc(4 * sizeof(int));
+    bom[0] = 0x00;
+    bom[1] = 0x00;
+    bom[2] = 0xFF;
+    bom[3] = 0xFE;
     
     return check_bom(to_check, bom);
 }
